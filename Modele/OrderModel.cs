@@ -113,6 +113,9 @@ namespace API_Test_BaseLinker.Modele
         /// <returns></returns>
         public int addOrder(OrderModel _order)
         {
+            string wynik;
+
+
             List<OrderModel> orders = new List<OrderModel>();
             string[] ingoruj = new string[] { "order_id", "shop_order_id", "external_order_id", "order_source", "order_source_id", "order_source_info", "date_confirmed", "date_in_status", "confirmed", "payment_done", "delivery_package_module", "delivery_package_nr", "delivery_country", "invoice_country", "order_page", "pick_state", "pack_state" }; 
             string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ingoruj) });
@@ -122,15 +125,21 @@ namespace API_Test_BaseLinker.Modele
             {
                 APP.APIConnectModel APIConnect = new APP.APIConnectModel();
                 string postOrders = APIConnect.Post(metoda, jsonorder);
-                orders = GetPostOrders(postOrders);
-                if (orders.Count == 1)
+
+              //  var wynik = JsonConvert.DeserializeObject<string>(postOrders);
+          
+                Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(postOrders);
+                Dictionary<string,string> values =  obiektpobrany.ToObject<Dictionary<string, string>>();
+
+                wynik = values["status"];
+
+                if (wynik == "SUCCESS")
                 {
-                    _order.order_id = orders[0].order_id; 
+                    wynik = values["order_id"];
+                    _order.order_id = Int32.Parse(wynik);
                 }
-                else
-                {
-                    APP.APP.APPLogger.AddLog("addOrder zwróciło więcej zamówień w odpowiedzi !!!");  
-                }
+                else _order.order_id = 0;
+
             }
             catch (Exception ex)
             {

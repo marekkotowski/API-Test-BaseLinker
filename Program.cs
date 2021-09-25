@@ -42,14 +42,15 @@ namespace API_Test_BaseLinker
                 Modele.OrderModel neworder = new Modele.OrderModel();
                 neworder = neworder.CopyasNew(orders[0]);
                 neworder.order_id =  neworder.addOrder(neworder);
-                APP.APP.APPLogger.AddLog($"Utworzono nowe zamóienie: order_id={neworder.order_id}");
-            }
-            
-
-            
-
-           
-
+                if (neworder.order_id > 0)
+                {
+                    APP.APP.APPLogger.AddLog($"Utworzono nowe zamówienie: order_id={neworder.order_id}");
+                }
+                else
+                {
+                    Console.WriteLine("Nie uzyskano order_id nowego zamówienia!!!");
+                }
+            }            
         }
     }
 }
