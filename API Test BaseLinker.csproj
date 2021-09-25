@@ -53,6 +53,7 @@
     <Compile Include="APP\APPModule.cs" />
     <Compile Include="APP\APP.cs" />
     <Compile Include="APP\APIConnectModel.cs" />
+    <Compile Include="APP\JsonIgnoreResolver.cs" />
     <Compile Include="Modele\ConsoleLogger.cs" />
     <Compile Include="Modele\FeatureModel.cs" />
     <Compile Include="Modele\FileLogger.cs" />
