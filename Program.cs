@@ -10,18 +10,31 @@ namespace API_Test_BaseLinker
     {
         static void Main(string[] args)
         {
-            Modele.APIConnectModel APIConnect = new Modele.APIConnectModel();
+            APP.APP.APPSettings(); 
+            //APP.APIConnectModel APIConnect = new APP.APIConnectModel();
 
             try
             {
-                APIConnect.PobierzZamówieniaOdDnia(DateTime.Now);
+                //APIConnect.GetAllOrders();
+                MainTask(); 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = APP.APP.APPLogger.AddLog(ex.Message);
+                if (msg != "") Console.WriteLine(msg);                
             }
+            Console.WriteLine("Koniec aplikacji.");
+            Console.ReadKey(); 
 
+        }
 
+        /// <summary>
+        /// Główna funkcja do wykonania
+        /// </summary>
+        public static void MainTask()
+        {
+            
+            List<Modele.OrderModel> orders = Modele.OrderModel.getOrders();
         }
     }
 }
