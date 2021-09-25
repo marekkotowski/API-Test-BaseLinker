@@ -11,12 +11,9 @@ namespace API_Test_BaseLinker
         static void Main(string[] args)
         {
             APP.APP.APPSettings(); 
-            //APP.APIConnectModel APIConnect = new APP.APIConnectModel();
-
             try
             {
-                //APIConnect.GetAllOrders();
-                MainTask(); 
+                 MainTask(); 
             }
             catch (Exception ex)
             {

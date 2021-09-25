@@ -9,7 +9,7 @@ namespace API_Test_BaseLinker.APP
 {
     public sealed class APP
     {
-        public static int LogType;   ///0 - LogFile, 1 - ConsoleFile
+        public static int LogType;   ///0 - LogFile, 1 - LogConsole
         public static string Token = "3002555-3011404-RCY8JRTXCWXWJU5BZHSJI8KS9K4LQ9801OUIH18QS192F727NWE622D67L9H49YR";
         public static Modele.Logger APPLogger; 
 

@@ -7,6 +7,9 @@ using System.IO;
 
 namespace API_Test_BaseLinker.Modele
 {
+    /// <summary>
+    /// Zapis logów do pliku
+    /// </summary>
     public class FileLogger : ILogger
     {
         private string LogFile { get; set; }
@@ -50,8 +53,7 @@ namespace API_Test_BaseLinker.Modele
             using (FileStream file = File.Create(this.LogFile))
             { 
             
-            }           
-            
+            } 
         }
 
 

@@ -24,6 +24,13 @@ namespace API_Test_BaseLinker.APP
         }
 
 
+        /// <summary>
+        /// Post na adres z przekazaniem metody i parametrów
+        /// zwraca odpowiedź z webapi
+        /// </summary>
+        /// <param name="_metoda"></param>
+        /// <param name="_parametry"></param>
+        /// <returns></returns>
         public string Post(string _metoda, string _parametry)
         {
             string responseBody=""; 

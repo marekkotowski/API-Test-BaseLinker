@@ -19,11 +19,7 @@ namespace API_Test_BaseLinker.APP
                 case 1:
                     Bind<Modele.ILogger>().To<Modele.ConsoleLogger>();
                     break; 
-
             }
-            
-            // Bind<Modele.IOrder>().To<Modele.OrderModel>();
-            //  Bind<Modele.IProduct>().To<Modele.ProductModel>(); 
         }
     }
 }
