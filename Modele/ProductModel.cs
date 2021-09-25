@@ -9,28 +9,29 @@ namespace API_Test_BaseLinker.Modele
 
     public class ProductModel
     {
-        public int Storage_id { get; set; }
-        public string Product_id { get; set; }
-        public string Ean { get; set; }
-        public string Sku { get; set; }
-        public string Name { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price_brutto { get; set; }
-        public decimal Price_wholesale_netto { get; set; }
-        public int Tax_rate { get; set; }
-        public decimal Weight { get; set; }
-        public string Description { get; set; }
-        public string Description_extra1 { get; set; }
-        public string Description_extra2 { get; set; }
-        public string Description_extra3 { get; set; }
-        public string Description_extra4 { get; set; }
-        public string Man_name { get; set; }
-        public int Category_id { get; set; }
-        public List<string> Images;
+        public string storage { get; set; }
+        public int storage_id { get; set; }
+        public string product_id { get; set; }
+        public string ean { get; set; }
+        public string sku { get; set; }
+        public string name { get; set; }
+        public int quantity { get; set; }
+        public decimal price_brutto { get; set; }
+        public decimal price_wholesale_netto { get; set; }
+        public int tax_rate { get; set; }
+        public decimal weight { get; set; }
+        public string description { get; set; }
+        public string description_extra1 { get; set; }
+        public string description_extra2 { get; set; }
+        public string description_extra3 { get; set; }
+        public string description_extra4 { get; set; }
+        public string mMan_name { get; set; }
+        public int category_id { get; set; }
+        public List<string> images;
 
         public ProductModel()
-        { 
-        
+        {
+            images = new List<string>(); 
         }
 
 

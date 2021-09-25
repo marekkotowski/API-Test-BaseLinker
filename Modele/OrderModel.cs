@@ -9,13 +9,8 @@ using Newtonsoft.Json;
 
 namespace API_Test_BaseLinker.Modele
 {
-    public interface IOrder
-    {
-        OrderModel getOrder(); 
-    }
 
-
-    public class OrderModel :IOrder
+    public class OrderModel 
     {
         public int order_id { get; set; }
         public int? shop_order_id { get; set; }
@@ -98,13 +93,6 @@ namespace API_Test_BaseLinker.Modele
             return orders; 
         }
 
-        public OrderModel getOrder()
-        {
-            return this; 
-        }
-
-
-
 
         /// <summary>
         /// The method allows adding a new order
@@ -114,19 +102,16 @@ namespace API_Test_BaseLinker.Modele
         public int addOrder(OrderModel _order)
         {
             string wynik;
-
+            string metoda = "addOrder";
 
             List<OrderModel> orders = new List<OrderModel>();
-            string[] ingoruj = new string[] { "order_id", "shop_order_id", "external_order_id", "order_source", "order_source_id", "order_source_info", "date_confirmed", "date_in_status", "confirmed", "payment_done", "delivery_package_module", "delivery_package_nr", "delivery_country", "invoice_country", "order_page", "pick_state", "pack_state" }; 
-            string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ingoruj) });
-            string metoda = "addOrder";
-     
+            string[] ignoruj = new string[] { "order_id", "shop_order_id", "external_order_id", "order_source", "order_source_id", "order_source_info", "date_confirmed", "date_in_status", "confirmed", "payment_done", "delivery_package_module", "delivery_package_nr", "delivery_country", "invoice_country", "order_page", "pick_state", "pack_state", "price_wholesale_netto", "description", "description_extra1", "description_extra2", "description_extra3", "description_extra4", "man_name", "category_id", "images" }; 
+            string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ignoruj) });
+            
             try
             {
                 APP.APIConnectModel APIConnect = new APP.APIConnectModel();
                 string postOrders = APIConnect.Post(metoda, jsonorder);
-
-              //  var wynik = JsonConvert.DeserializeObject<string>(postOrders);
           
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(postOrders);
                 Dictionary<string,string> values =  obiektpobrany.ToObject<Dictionary<string, string>>();
@@ -166,17 +151,10 @@ namespace API_Test_BaseLinker.Modele
                 List<OrderModel> orders = new List<OrderModel>();
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(_postorders);
                 IList<Newtonsoft.Json.Linq.JToken> Tokenzamowienia = obiektpobrany["orders"].Children().ToList();
-                //IList<Modele.OrderModel> pobraneZamowienia = new List<Modele.OrderModel>();
                 orders = new List<Modele.OrderModel>();
                 foreach (Newtonsoft.Json.Linq.JToken token in Tokenzamowienia)
                 {
                     Modele.OrderModel zamowienie = token.ToObject<Modele.OrderModel>();
-                    IList<Newtonsoft.Json.Linq.JToken> TokenProduktu = token["products"].Children().ToList();
-                    foreach (Newtonsoft.Json.Linq.JToken tokenprodukt in TokenProduktu)
-                    {
-                        Modele.ProductModel produkt = tokenprodukt.ToObject<Modele.ProductModel>();
-                        zamowienie.AddProduct(produkt);
-                    }
                     orders.Add(zamowienie);
                 }
                 return orders;
