@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace API_Test_BaseLinker.APP
 {
+    /*
     public class APIConnectModel
     {
         private string Token { get; set; }
@@ -60,4 +61,6 @@ namespace API_Test_BaseLinker.APP
             }
         }
     }
+
+    */
 }

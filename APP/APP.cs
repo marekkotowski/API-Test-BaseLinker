@@ -11,9 +11,12 @@ namespace API_Test_BaseLinker.APP
 {
     public sealed class APP
     {
-        public static string Token;
+        //public static string Token;
         public static string LoggerType;
-        public static Modele.Logger APPLogger; 
+        public static string SourceClientType; 
+        public static Logger.Logger APPLogger; 
+
+        public static SourceClient.SourceClient SenderClient; 
 
         private APP instance = new APP(); 
 
@@ -31,11 +34,19 @@ namespace API_Test_BaseLinker.APP
 
         public static void APPSettings()
         {
-            Token = ConfigurationManager.AppSettings.Get("Token");
+            ///ustawienia aplikacji z APP.config
+            string token =  ConfigurationManager.AppSettings.Get("Token");
+            Uri webaddress = new Uri(ConfigurationManager.AppSettings.Get("webaddress"));
             LoggerType = ConfigurationManager.AppSettings.Get("Logger");
+            SourceClientType = ConfigurationManager.AppSettings.Get("SourceClient");
+
+            // wstrzykiwanie zależności 
             IKernel kernel = new StandardKernel(new APPModule());
-            Modele.ILogger kernellogger = kernel.Get<Modele.ILogger>();
-            APPLogger = new Modele.Logger(kernellogger);
+            SourceClient.ISourceClient senderclient = kernel.Get<SourceClient.ISourceClient>();
+            SenderClient = new SourceClient.SourceClient (senderclient, webaddress, token);
+            Logger.ILogger kernellogger = kernel.Get<Logger.ILogger>();
+                        
+            APPLogger = new Logger.Logger(kernellogger);
             APPLogger.AddLog("Start aplikacji");
         }
     }

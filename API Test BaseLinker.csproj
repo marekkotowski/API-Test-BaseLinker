@@ -55,19 +55,22 @@
     <Compile Include="APP\APP.cs" />
     <Compile Include="APP\APIConnectModel.cs" />
     <Compile Include="APP\JsonIgnoreResolver.cs" />
-    <Compile Include="Modele\ConsoleLogger.cs" />
-    <Compile Include="Modele\FeatureModel.cs" />
-    <Compile Include="Modele\FileLogger.cs" />
-    <Compile Include="Modele\ILogger.cs" />
-    <Compile Include="Modele\Logger.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
+    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Logger\Logger.cs" />
     <Compile Include="Modele\ProductModel.cs" />
     <Compile Include="Modele\OrderModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceClient\ISourceClient.cs" />
+    <Compile Include="SourceClient\SourceClient.cs" />
+    <Compile Include="SourceClient\WebApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

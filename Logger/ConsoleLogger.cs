@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API_Test_BaseLinker.Modele
+namespace API_Test_BaseLinker.Logger
 {
     public class ConsoleLogger :ILogger
     {

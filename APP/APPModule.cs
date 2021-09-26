@@ -14,12 +14,20 @@ namespace API_Test_BaseLinker.APP
             switch (APP.LoggerType)
             {
                 case "File":
-                    Bind<Modele.ILogger>().To<Modele.FileLogger>();
+                    Bind<Logger.ILogger>().To<Logger.FileLogger>();
                     break;
                 case "Console":
-                    Bind<Modele.ILogger>().To<Modele.ConsoleLogger>();
+                    Bind<Logger.ILogger>().To<Logger.ConsoleLogger>();
                     break; 
             }
+
+            switch (APP.SourceClientType)
+            {
+                case "WebAPI":
+                    Bind<SourceClient.ISourceClient>().To<SourceClient.WebApiClient>();
+                    break;
+            }
+            
         }
     }
 }

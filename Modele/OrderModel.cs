@@ -77,12 +77,17 @@ namespace API_Test_BaseLinker.Modele
         public static List<OrderModel> getOrders()
         {
             string metoda = "getOrders";
-            string parametry = @"{""get_unconfirmed_orders"":true} ";
+            //string parametry = @"{""get_unconfirmed_orders"":true} ";
+
+            Dictionary<string, string> parametry = new Dictionary<string, string>();
+            parametry.Add("get_unconfirmed_ordes", "true");
+
+            string requestparam = JsonConvert.SerializeObject(parametry);
+
             List<OrderModel> orders = new List<OrderModel>(); 
             try
             {
-                APP.APIConnectModel ApiConnect = new APP.APIConnectModel();
-                string postOrders = ApiConnect.Post(metoda, parametry);
+                string postOrders = APP.APP.SenderClient.Post(metoda, requestparam);
                 orders = GetPostOrders(postOrders);
             }
             catch (Exception ex)
@@ -108,8 +113,7 @@ namespace API_Test_BaseLinker.Modele
             string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ignoruj) });
             try
             {
-                APP.APIConnectModel APIConnect = new APP.APIConnectModel();
-                postOrders = APIConnect.Post(metoda, jsonorder);  
+                postOrders = APP.APP.SenderClient.Post(metoda, jsonorder);
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(postOrders);
                 var firstresult = obiektpobrany.Children<JProperty>().First();  //pobieram pierwszy element z otrzymanego wyniku 
                 if (firstresult.Value.ToString() == "SUCCESS")
@@ -143,7 +147,6 @@ namespace API_Test_BaseLinker.Modele
         /// <returns></returns>
         private static List<OrderModel> GetPostOrders(string _postorders)
         {
-
             try
             {
                 List<OrderModel> orders = new List<OrderModel>();

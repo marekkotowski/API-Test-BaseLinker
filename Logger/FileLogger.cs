@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO; 
 
-namespace API_Test_BaseLinker.Modele
+namespace API_Test_BaseLinker.Logger
 {
     /// <summary>
     /// Zapis logów do pliku
