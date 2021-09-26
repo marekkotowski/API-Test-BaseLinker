@@ -101,27 +101,28 @@ namespace API_Test_BaseLinker.Modele
         /// <returns></returns>
         public int addOrder(OrderModel _order)
         {
-            string wynik;
             string metoda = "addOrder";
+            string postOrders; 
             List<OrderModel> orders = new List<OrderModel>();
             string[] ignoruj = new string[] { "order_id", "shop_order_id", "external_order_id", "order_source", "order_source_id", "order_source_info", "date_confirmed", "date_in_status", "confirmed", "payment_done", "delivery_package_module", "delivery_package_nr", "delivery_country", "invoice_country", "order_page", "pick_state", "pack_state", "price_wholesale_netto", "description", "description_extra1", "description_extra2", "description_extra3", "description_extra4", "man_name", "category_id", "images" }; 
             string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ignoruj) });
-            
             try
             {
                 APP.APIConnectModel APIConnect = new APP.APIConnectModel();
-                string postOrders = APIConnect.Post(metoda, jsonorder);  
+                postOrders = APIConnect.Post(metoda, jsonorder);  
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(postOrders);
-                var firstresult = obiektpobrany.Children<JProperty>().First();
-
+                var firstresult = obiektpobrany.Children<JProperty>().First();  //pobieram pierwszy element z otrzymanego wyniku 
                 if (firstresult.Value.ToString() == "SUCCESS")
                 {
                     Dictionary<string, string> values = obiektpobrany.ToObject<Dictionary<string, string>>(); //pobranie id nowego zamówienia
-                    wynik = values["order_id"];
+                    string wynik = values["order_id"];
                     _order.order_id = Int32.Parse(wynik);
                 }
-                else _order.order_id = 0;
-
+                else
+                {
+                    APP.APP.APPLogger.AddLog($"Błąd dodania nowego zamówienia: {postOrders}");
+                    _order.order_id = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -147,7 +148,7 @@ namespace API_Test_BaseLinker.Modele
             {
                 List<OrderModel> orders = new List<OrderModel>();
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(_postorders);
-                var firstresult = obiektpobrany.Children<JProperty>().First() ;
+                var firstresult = obiektpobrany.Children<JProperty>().First() ;  //pierwszy element z odpowiedzi 
                 if (firstresult.Value.ToString() == "SUCCESS")
                 {
                     IList<Newtonsoft.Json.Linq.JToken> Tokenzamowienia = obiektpobrany["orders"].Children().ToList();
