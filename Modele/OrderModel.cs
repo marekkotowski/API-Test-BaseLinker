@@ -197,7 +197,7 @@ namespace API_Test_BaseLinker.Modele
             newOrder.order_status_id = _order.order_status_id;
 
             var DatatimeOffset = new DateTimeOffset(DateTime.Now).ToUniversalTime();
-            newOrder.date_add = new DateTimeOffset(DateTime.Now).ToUniversalTime().ToUnixTimeMilliseconds();
+            newOrder.date_add = new DateTimeOffset(DateTime.Now).ToUniversalTime().ToUnixTimeSeconds();
             newOrder.phone = _order.phone;
             newOrder.email = _order.email;
             newOrder.user_login = _order.user_login;
