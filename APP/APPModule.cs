@@ -11,12 +11,12 @@ namespace API_Test_BaseLinker.APP
     {
         public override void Load()
         {
-            switch (APP.LogType)
+            switch (APP.LoggerType)
             {
-                case 0:
+                case "File":
                     Bind<Modele.ILogger>().To<Modele.FileLogger>();
                     break;
-                case 1:
+                case "Console":
                     Bind<Modele.ILogger>().To<Modele.ConsoleLogger>();
                     break; 
             }

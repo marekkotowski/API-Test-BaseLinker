@@ -171,7 +171,7 @@ namespace API_Test_BaseLinker.Modele
             }
             catch (Exception ex)
             {
-                APP.APP.APPLogger.AddLog(ex.Message);
+                APP.APP.APPLogger.AddLog($"Nie otrzymano zamówień: {_postorders}; {ex.Message}");
                 return null;
             }
         }

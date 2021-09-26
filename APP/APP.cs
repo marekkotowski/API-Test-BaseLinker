@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Collections.Specialized;
 using Ninject;
 
 namespace API_Test_BaseLinker.APP
 {
     public sealed class APP
     {
-        public static int LogType;   ///0 - LogFile, 1 - LogConsole
-        public static string Token = "***tu należy wprowadzić token ***";
+        public static string Token;
+        public static string LoggerType;
         public static Modele.Logger APPLogger; 
 
         private APP instance = new APP(); 
@@ -29,7 +31,8 @@ namespace API_Test_BaseLinker.APP
 
         public static void APPSettings()
         {
-            LogType = 1;           
+            Token = ConfigurationManager.AppSettings.Get("Token");
+            LoggerType = ConfigurationManager.AppSettings.Get("Logger");
             IKernel kernel = new StandardKernel(new APPModule());
             Modele.ILogger kernellogger = kernel.Get<Modele.ILogger>();
             APPLogger = new Modele.Logger(kernellogger);
