@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Linq;
 
 namespace API_Test_BaseLinker.Modele
 {
@@ -103,7 +103,6 @@ namespace API_Test_BaseLinker.Modele
         {
             string wynik;
             string metoda = "addOrder";
-
             List<OrderModel> orders = new List<OrderModel>();
             string[] ignoruj = new string[] { "order_id", "shop_order_id", "external_order_id", "order_source", "order_source_id", "order_source_info", "date_confirmed", "date_in_status", "confirmed", "payment_done", "delivery_package_module", "delivery_package_nr", "delivery_country", "invoice_country", "order_page", "pick_state", "pack_state", "price_wholesale_netto", "description", "description_extra1", "description_extra2", "description_extra3", "description_extra4", "man_name", "category_id", "images" }; 
             string jsonorder = Newtonsoft.Json.JsonConvert.SerializeObject(_order, new JsonSerializerSettings { ContractResolver = new APP.JsonIgnoreResolver(ignoruj) });
@@ -111,15 +110,13 @@ namespace API_Test_BaseLinker.Modele
             try
             {
                 APP.APIConnectModel APIConnect = new APP.APIConnectModel();
-                string postOrders = APIConnect.Post(metoda, jsonorder);
-          
+                string postOrders = APIConnect.Post(metoda, jsonorder);  
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(postOrders);
-                Dictionary<string,string> values =  obiektpobrany.ToObject<Dictionary<string, string>>();
+                var firstresult = obiektpobrany.Children<JProperty>().First();
 
-                wynik = values["status"];
-
-                if (wynik == "SUCCESS")
+                if (firstresult.Value.ToString() == "SUCCESS")
                 {
+                    Dictionary<string, string> values = obiektpobrany.ToObject<Dictionary<string, string>>(); //pobranie id nowego zamówienia
                     wynik = values["order_id"];
                     _order.order_id = Int32.Parse(wynik);
                 }
@@ -150,14 +147,23 @@ namespace API_Test_BaseLinker.Modele
             {
                 List<OrderModel> orders = new List<OrderModel>();
                 Newtonsoft.Json.Linq.JObject obiektpobrany = Newtonsoft.Json.Linq.JObject.Parse(_postorders);
-                IList<Newtonsoft.Json.Linq.JToken> Tokenzamowienia = obiektpobrany["orders"].Children().ToList();
-                orders = new List<Modele.OrderModel>();
-                foreach (Newtonsoft.Json.Linq.JToken token in Tokenzamowienia)
+                var firstresult = obiektpobrany.Children<JProperty>().First() ;
+                if (firstresult.Value.ToString() == "SUCCESS")
                 {
-                    Modele.OrderModel zamowienie = token.ToObject<Modele.OrderModel>();
-                    orders.Add(zamowienie);
+                    IList<Newtonsoft.Json.Linq.JToken> Tokenzamowienia = obiektpobrany["orders"].Children().ToList();
+                    orders = new List<Modele.OrderModel>();
+                    foreach (Newtonsoft.Json.Linq.JToken token in Tokenzamowienia)
+                    {
+                        Modele.OrderModel zamowienie = token.ToObject<Modele.OrderModel>();
+                        orders.Add(zamowienie);
+                    }
+                    return orders;
                 }
-                return orders;
+                else
+                {
+                    APP.APP.APPLogger.AddLog(_postorders);
+                    return null; 
+                }
             }
             catch (Newtonsoft.Json.JsonReaderException exjs)
             {
